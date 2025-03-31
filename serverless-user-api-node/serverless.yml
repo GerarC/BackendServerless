@@ -1,0 +1,84 @@
+service: serverless-user-api-node
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: us-east-1
+  apiGateway:
+    restApiId: onzncwzzm3
+    restApiRootResourceId: 26f53gooq0
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:Scan
+          Resource: arn:aws:dynamodb:us-east-1:989240813428:table/UsersTable
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource: !GetAtt CreateUserQueue.Arn
+        - Effect: Allow
+          Action:
+            - sqs:ReceiveMessage
+            - sqs:DeleteMessage
+            - sqs:GetQueueAttributes
+          Resource: !GetAtt CreateUserQueue.Arn
+        - Effect: Allow
+          Action:
+            - sns:Publish
+          Resource: !Ref EmailTopic
+
+functions:
+  getUsers:
+    handler: src/handlers/get-users-handler.handleRequest
+    events:
+      - http:
+          path: users
+          method: get
+
+  createUser:
+    handler: src/handlers/post-user-handler.handleRequest
+    events:
+      - http:
+          path: users
+          method: post
+    environment:
+      CREATE_USER_QUEUE_URL: !GetAtt CreateUserQueue.QueueUrl
+
+  sendMails:
+    handler: src/handlers/send-mails-handler.handleRequest
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - CreateUserQueue
+              - Arn
+          batchSize: 5
+    environment:
+      EMAIL_TOPIC_ARN: !Ref EmailTopic
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UsersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    CreateUserQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: CreateUserQueue
+
+    EmailTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: UserCreatedTopic

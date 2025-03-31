@@ -1,0 +1,150 @@
+{
+  "C:\\Users\\gerardo.castillo_pra\\Documents\\Workspace\\Aws Challenge\\serverless\\serverless.yml": {
+    "versionFramework": "4.9.1",
+    "servicePath": "C:\\Users\\gerardo.castillo_pra\\Documents\\Workspace\\Aws Challenge\\serverless\\serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "serverless-user-api",
+      "provider": {
+        "name": "aws",
+        "runtime": "java21",
+        "region": "us-east-1",
+        "stage": "dev",
+        "versionFunctions": true,
+        "environment": {
+          "IS_LOCAL": "true"
+        }
+      },
+      "functions": {
+        "getUsers": {
+          "handler": "serverless.challenge.handlers.GetUsersHandler::handleRequest",
+          "events": [
+            {
+              "http": {
+                "path": "users",
+                "method": "get"
+              }
+            }
+          ],
+          "name": "serverless-user-api-dev-getUsers"
+        },
+        "saveUser": {
+          "handler": "serverless.challenge.handlers.SaveUserHandler::handleRequest",
+          "events": [
+            {
+              "http": {
+                "path": "users",
+                "method": "post"
+              }
+            }
+          ],
+          "name": "serverless-user-api-dev-saveUser"
+        },
+        "updateUser": {
+          "handler": "handlers/update-user-handler.update",
+          "runtime": "nodejs22.x",
+          "events": [
+            {
+              "http": {
+                "path": "users/{id}",
+                "method": "put"
+              }
+            }
+          ],
+          "name": "serverless-user-api-dev-updateUser"
+        },
+        "deleteUser": {
+          "handler": "serverless.challenge.handlers.DeleteUserHandler::handleRequest",
+          "events": [
+            {
+              "http": {
+                "path": "users/{id}",
+                "method": "delete"
+              }
+            }
+          ],
+          "name": "serverless-user-api-dev-deleteUser"
+        }
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "java21",
+      "region": "us-east-1",
+      "stage": "dev",
+      "versionFunctions": true,
+      "environment": {
+        "IS_LOCAL": "true"
+      }
+    },
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "error": {
+      "message": "Artifact undefined doesn't exists, please compile it first.",
+      "stack": "ServerlessError2: Artifact undefined doesn't exists, please compile it first.\n    at AwsInvokeLocal.invokeLocalJava (file:///C:/Users/gerardo.castillo_pra/.serverless/releases/4.9.1/package/dist/sf-core.js:799:2887)",
+      "code": "JAVA_ARTIFACT_NOT_FOUND"
+    },
+    "serviceRawFile": "service: serverless-user-api\n\nprovider:\n  name: aws\n  runtime: java21\n  region: us-east-1\n\nfunctions:\n  getUsers:\n    handler: serverless.challenge.handlers.GetUsersHandler::handleRequest\n    events:\n      - http:\n          path: users\n          method: get\n\n  saveUser:\n    handler: serverless.challenge.handlers.SaveUserHandler::handleRequest\n    events:\n      - http:\n          path: users\n          method: post\n\n  updateUser:\n    handler: handlers/update-user-handler.update\n    runtime: nodejs22.x\n    events:\n      - http:\n          path: users/{id}\n          method: put\n\n  deleteUser:\n    handler: serverless.challenge.handlers.DeleteUserHandler::handleRequest\n    events:\n      - http:\n          path: users/{id}\n          method: delete",
+    "command": [
+      "invoke",
+      "local"
+    ],
+    "options": {
+      "function": "saveUser"
+    },
+    "orgId": "fb2c7ce1-e20f-4140-a232-e510a1a16167",
+    "orgName": "pragmagerard",
+    "userId": "j1LJ7FBcrK8tXTpv0b",
+    "userName": "pragmagerard",
+    "serviceProviderAwsAccountId": "989240813428",
+    "serviceProviderAwsCfStackName": "serverless-user-api-dev",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:989240813428:stack/serverless-user-api-dev/85ef2760-0d90-11f0-b7f3-0affdc783f17",
+    "serviceProviderAwsCfStackCreated": "2025-03-30T17:58:02.346Z",
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "DeleteUserLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:989240813428:function:serverless-user-api-dev-deleteUser:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-serverless-user-api-dev-DeleteUserLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "GetUsersLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:989240813428:function:serverless-user-api-dev-getUsers:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-serverless-user-api-dev-GetUsersLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "SaveUserLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:989240813428:function:serverless-user-api-dev-saveUser:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-serverless-user-api-dev-SaveUserLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "UpdateUserLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:989240813428:function:serverless-user-api-dev-updateUser:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-serverless-user-api-dev-UpdateUserLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://yquo6nkqmk.execute-api.us-east-1.amazonaws.com/dev",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-serverless-user-api-dev-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-fa7a4b05-bce1",
+        "ExportName": "sls-serverless-user-api-dev-ServerlessDeploymentBucketName"
+      }
+    ]
+  }
+}

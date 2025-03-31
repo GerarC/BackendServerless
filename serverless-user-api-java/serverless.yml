@@ -1,0 +1,57 @@
+service: serverless-user-api-java
+
+provider:
+    name: aws
+    runtime: java21
+    region: us-east-1
+    apiGateway:
+        restApiId: onzncwzzm3
+        restApiRootResourceId: yhlvn4
+    iam:
+        role:
+            statements:
+                -   Effect: Allow
+                    Action:
+                        - dynamodb:GetItem
+                        - dynamodb:PutItem
+                        - dynamodb:UpdateItem
+                        - dynamodb:DeleteItem
+                        - dynamodb:Scan
+                        - dynamodb:Query
+                    Resource: arn:aws:dynamodb:us-east-1:989240813428:table/UsersTable
+
+functions:
+    updateUser:
+        handler: serverless.challenge.handler.UpdateUserHandler
+        events:
+            - http:
+                  path: /{id}
+                  method: put
+
+    deleteUser:
+        handler: serverless.challenge.handler.DeleteUserHandler
+        events:
+            - http:
+                  path: /{id}
+                  method: delete
+
+resources:
+    Resources:
+        UsersTable:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: Users
+                AttributeDefinitions:
+                    - AttributeName: id
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: id
+                      KeyType: HASH
+                BillingMode: PAY_PER_REQUEST
+
+package:
+    artifact: build/distributions/serverless-user-api-1.0-SNAPSHOT.zip
+
+custom:
+    stage: ${opt:stage, 'dev'}
+    region: us-east-1
